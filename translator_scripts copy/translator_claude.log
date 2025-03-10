@@ -1,0 +1,15 @@
+2025-02-25 09:34:12,222 - ERROR - Directory not found: Source_Text copy
+2025-02-25 09:34:12,222 - ERROR - No text files found in Source_Text copy
+2025-03-10 13:29:30,273 - INFO - Loaded 83 text files from ../Source_Text copy/
+2025-03-10 13:29:30,273 - INFO - Starting translation of 1 files
+2025-03-10 13:29:30,274 - INFO - Source directory: ../Source_Text copy/
+2025-03-10 13:29:30,274 - INFO - Output directory: ../Translations/demo_translation
+2025-03-10 13:29:30,274 - INFO - Model: claude-3-7-sonnet-latest
+2025-03-10 13:29:30,274 - INFO - Workers: 1
+2025-03-10 13:29:30,274 - INFO - Translating Book_1_Chapter_02.txt...
+2025-03-10 13:29:35,699 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2025-03-10 13:29:35,711 - INFO - Translation saved to ../Translations/demo_translation/Book_1_Chapter_02.txt
+2025-03-10 13:29:35,712 - INFO - Translation process completed:
+2025-03-10 13:29:35,713 - INFO -   - Completed: 1
+2025-03-10 13:29:35,713 - INFO -   - Skipped: 0
+2025-03-10 13:29:35,713 - INFO -   - Failed: 0

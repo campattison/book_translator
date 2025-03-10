@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-03-10T13:29:35.713240",
+  "source_directory": "../Source_Text copy/",
+  "output_directory": "../Translations/demo_translation",
+  "model": "claude-3-7-sonnet-latest",
+  "total_files": 1,
+  "completed": 1,
+  "skipped": 0,
+  "failed": 0,
+  "results": {
+    "Book_1_Chapter_02.txt": "completed"
+  }
+}

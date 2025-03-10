@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-02-25T09:40:41.270586",
+  "source_directory": "/Users/cameronpattison/Desktop/updated translator scripts 2.25.25/Source_Text copy",
+  "output_directory": "/Users/cameronpattison/Desktop/updated translator scripts 2.25.25/Translations/claude_translations_02.25.25",
+  "model": "claude-3-7-sonnet-latest",
+  "total_files": 1,
+  "completed": 1,
+  "skipped": 0,
+  "failed": 0,
+  "results": {
+    "Book_1_Chapter_01.txt": "completed"
+  }
+}

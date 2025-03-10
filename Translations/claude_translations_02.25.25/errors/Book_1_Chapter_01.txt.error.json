@@ -1,0 +1,6 @@
+{
+  "source_file": "Book_1_Chapter_01.txt",
+  "error_date": "2025-02-25T09:38:41.156509",
+  "error_message": "Error code: 529 - {'type': 'error', 'error': {'type': 'overloaded_error', 'message': 'Overloaded'}}",
+  "status": "failed"
+}

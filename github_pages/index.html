@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ancient Greek Translator | Cameron Pattison</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Debug panel styles */
+    #debugPanel {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: monospace;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    #debugPanel h3 {
+      margin-top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    #debugPanel pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    #debugToggle {
+      cursor: pointer;
+      color: #0066cc;
+      text-decoration: underline;
+      margin-left: 10px;
+      font-size: 0.8em;
+    }
+    
+    .debug-entry {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .debug-entry .timestamp {
+      color: #666;
+      font-size: 0.8em;
+    }
+    
+    .debug-entry .message {
+      margin-top: 5px;
+    }
+    
+    .debug-entry.error .message {
+      color: #d9534f;
+    }
+    
+    .debug-entry.warn .message {
+      color: #f0ad4e;
+    }
+    
+    .debug-entry.info .message {
+      color: #5bc0de;
+    }
+    
+    .clear-logs {
+      background: none;
+      border: none;
+      color: #0066cc;
+      cursor: pointer;
+      font-size: 0.8em;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ancient Greek Translator</h1>
+    <p>Translate Ancient Greek texts to English using Claude AI</p>
+    <a href="https://campattison.github.io/bio/index.html" class="home-link">← Back to Homepage</a>
+  </header>
+
+  <main>
+    <div class="translation-form-container">
+      <form id="translationForm" class="translation-form">
+        <div class="form-group">
+          <label for="apiKey">
+            Anthropic API Key <span class="required">*</span>
+          </label>
+          <input
+            type="password"
+            id="apiKey"
+            placeholder="Enter your Anthropic API key"
+            required
+          />
+          <small>
+            Your API key is only used for translation and is not stored on our servers.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="model">Model</label>
+          <select id="model">
+            <option value="claude-3-7-sonnet-20240307">Claude 3.7 Sonnet (Latest)</option>
+            <option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>
+            <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="input-method-selector">
+            <button
+              type="button"
+              id="textInputBtn"
+              class="active"
+            >
+              Enter Text
+            </button>
+            <button
+              type="button"
+              id="fileInputBtn"
+            >
+              Upload File
+            </button>
+          </div>
+        </div>
+
+        <div id="textInputSection" class="form-group">
+          <label for="text">
+            Greek Text <span class="required">*</span>
+          </label>
+          <textarea
+            id="text"
+            placeholder="Enter Ancient Greek text to translate"
+            rows="10"
+            required
+          ></textarea>
+        </div>
+
+        <div id="fileInputSection" class="form-group" style="display: none;">
+          <label for="file">
+            Upload File <span class="required">*</span>
+          </label>
+          <input
+            type="file"
+            id="file"
+            accept=".txt"
+          />
+          <small>
+            Supported format: .txt files only (max 5MB)
+          </small>
+          <div class="note">
+            <p>Note: This version only supports text files. PDF and image support will be added in a future update.</p>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button">
+          Translate
+        </button>
+      </form>
+    </div>
+
+    <div id="loadingSpinner" class="loading-container" style="display: none;">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Translating... This may take a minute for longer texts.</p>
+    </div>
+
+    <div id="errorMessage" class="error-message" style="display: none;">
+      <h3>Error</h3>
+      <p id="errorText"></p>
+      <p><a href="#" id="showDebugLink">Show technical details</a></p>
+    </div>
+
+    <div id="debugPanel">
+      <h3>
+        Debug Information
+        <span>
+          <button class="clear-logs" id="clearLogs">Clear logs</button>
+        </span>
+      </h3>
+      <div id="debugLogs"></div>
+    </div>
+
+    <div id="translationResult" class="translation-result" style="display: none;">
+      <h2>Translation Result</h2>
+      
+      <div class="result-info">
+        <p>
+          <strong>Model:</strong> <span id="resultModel"></span>
+          <span id="chunksInfo" style="display: none;"> | <strong>Chunks:</strong> <span id="resultChunks"></span></span>
+          <span id="debugToggle">Show Debug Info</span>
+        </p>
+        
+        <div class="result-actions">
+          <button id="copyTranslationBtn" class="action-button">
+            Copy Translation
+          </button>
+          <div class="export-dropdown">
+            <button id="exportBtn" class="action-button">
+              Export As ▼
+            </button>
+            <div class="export-dropdown-content">
+              <a href="#" id="exportTxtBtn">Plain Text (.txt)</a>
+              <a href="#" id="exportHtmlBtn">HTML (.html)</a>
+              <a href="#" id="exportMarkdownBtn">Markdown (.md)</a>
+              <a href="#" id="exportJsonBtn">JSON (.json)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-columns">
+        <div class="text-column">
+          <h3>Original Text</h3>
+          <div id="originalText" class="text-content original"></div>
+        </div>
+
+        <div class="text-column">
+          <h3>English Translation</h3>
+          <div id="translatedText" class="text-content translation"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Powered by Anthropic Claude AI | 
+      <a href="https://github.com/campattison" target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html> 
