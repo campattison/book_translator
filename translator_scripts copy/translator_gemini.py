@@ -32,7 +32,7 @@ text_entries = load_texts_from_directory(source_directory)
 # text_entries = text_entries[:3]
 
 # Initialize the model
-gemini_api_key = 'AIzaSyALgfznjKBnpHdGbylQT31epIYGvk1RnRY'
+gemini_api_key = 'your_api_key_here'
 model = initialize_gemini(gemini_api_key)
 
 # Translation prompt

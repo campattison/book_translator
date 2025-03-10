@@ -3,7 +3,7 @@ from openai import OpenAI
 from pathlib import Path
 
 # Initialize OpenAI client
-client = OpenAI(api_key="sk-proj-soxTXTrcUEXD3OSrM3PJT3BlbkFJ9PDOZCcf4GvU7vt1qxeM")
+client = OpenAI(api_key="your_api_key_here")
 
 # Set up paths
 source_folder = Path("/Users/cameronpattison/Library/CloudStorage/OneDrive-Vanderbilt/For Publication/Machine Translation Article/STIS and MINT/Translation_stuff/Source_Text")
