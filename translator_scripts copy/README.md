@@ -1,6 +1,6 @@
 # Ancient Greek Translator
 
-A tool for translating Ancient Greek texts to English using Anthropic's Claude API.
+A tool for translating Ancient Greek texts to English using LLM APIs.
 
 ## Features
 
